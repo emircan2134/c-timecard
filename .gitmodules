@@ -1,0 +1,3 @@
+[submodule "vendor/speck"]
+	path = vendor/speck
+	url = git@github.com:wfleming/speck.git
