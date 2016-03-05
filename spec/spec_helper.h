@@ -18,3 +18,11 @@ struct tm fixture_time(void) {
   };
   return t;
 }
+
+char *heap_str(const char *str) {
+  int l = strlen(str);
+  char *dst = malloc((l + 1) * sizeof(char));
+  strcpy(dst, str);
+  return dst;
+}
+
