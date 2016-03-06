@@ -16,6 +16,8 @@ $(BIN): *.c *.h
 test: $(SPECK) $(SPECK_LIBS) $(SUITES)
 	@$(SPECK)
 
+spec/%.so: spec/spec_helper.h
+
 valgrind: $(BIN)
 	@valgrind --leak-check=full --error-exitcode=1 ./$(BIN)
 
