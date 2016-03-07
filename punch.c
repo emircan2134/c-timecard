@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "entry_log.h"
 
 /*---------- Prototypes ----------*/
 

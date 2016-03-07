@@ -7,7 +7,7 @@ SPECK_LIBS=$(patsubst %.h, %.o, $(wildcard *.h))
 SPECK_PATH = vendor/speck
 
 $(BIN): *.c *.h
-	$(CC) $(CC_FLAGS) $(BIN_CC_FLAGS) -o $(BIN) punch.c
+	$(CC) $(CC_FLAGS) $(BIN_CC_FLAGS) -o $(BIN) *.c
 
 %.o: %.c %.h
 	$(CC) $(CC_FLAGS) -c -g -o $@ $<

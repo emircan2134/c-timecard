@@ -33,8 +33,8 @@ char *strpiso8601(char *buf, struct tm *tptr) {
   if (':' != mbuf[strnlen(buf, ISO8601_STR_LEN) - 3]) {
     return NULL;
   }
-  for(int i = 3; i > 0; i--) {
-    int target = strnlen(buf, ISO8601_STR_LEN) - i;
+  for(size_t i = 3; i > 0; i--) {
+    size_t target = strnlen(buf, ISO8601_STR_LEN) - i;
     mbuf[target] = mbuf[target + 1];
   }
   return strptime(mbuf, PARSE_FORMAT, tptr);

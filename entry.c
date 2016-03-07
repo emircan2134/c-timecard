@@ -4,8 +4,6 @@
 #include "entry.h"
 #include "iso8601.h"
 
-#define MAX_LINE_LEN 255
-
 /*-----------  Private Prototypes  -----------*/
 bool entry_valid(t_entry *entry);
 size_t strfentry_time(char *buf, time_t *t);
@@ -105,7 +103,21 @@ t_entry_hours entry_duration(t_entry *entry) {
 void entry_free(t_entry *entry) {
   free(entry->project);
   free(entry);
-};
+}
+
+t_entry *entry_dup(t_entry *entry) {
+  t_entry *dup = malloc(sizeof(t_entry));
+  dup->project = str_dup(entry->project);
+  dup->in = malloc(sizeof(time_t));
+  memcpy(dup->in, entry->in, sizeof(time_t));
+  if (NULL != entry->out) {
+    dup->out = malloc(sizeof(time_t));
+    memcpy(dup->out, entry->out, sizeof(time_t));
+  } else {
+    dup->out = NULL;
+  }
+  return dup;
+}
 
 size_t strfentry_time(char *buf, time_t *t) {
   struct tm tt;
@@ -117,11 +129,11 @@ size_t strfentry_time(char *buf, time_t *t) {
 bool entry_valid(t_entry *entry) {
   return (NULL != entry->project &&
       NULL != entry->in &&
-      strnlen(entry->project, MAX_LINE_LEN) < MAX_LINE_LEN);
+      strnlen(entry->project, MAX_ENTRY_LINE_LEN) < MAX_ENTRY_LINE_LEN);
 }
 
 char *str_dup(char *src) {
-  int l = strnlen(src, MAX_LINE_LEN - 1);
+  size_t l = strnlen(src, MAX_ENTRY_LINE_LEN - 1);
   char *dst = malloc((l + 1) * sizeof(char));
   strncpy(dst, src, l);
   dst[l] = '\0';
