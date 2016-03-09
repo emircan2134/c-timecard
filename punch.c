@@ -1,15 +1,15 @@
-#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include "cmd_util.h"
 #include "entry_log.h"
+#include "help_cmd.h"
+#include "in_cmd.h"
 
 /*---------- Prototypes ----------*/
 
-void help_cmd(int argc, char **argv);
-int in_cmd(int argc, char **argv);
 int out_cmd(int argc, char **argv);
 int summary_cmd(int argc, char **argv);
-bool show_cmd_help(char *cmd, int argc, char **argv);
 
 /*---------- Implementations ----------*/
 
@@ -29,31 +29,6 @@ int main(int argc, char **argv) {
   return status;
 }
 
-void help_cmd(int argc, char **argv) {
-  if (argc > 0 && 0 == strcmp(argv[0], "in")) {
-    puts("usage: punch in <project name>");
-  } else if (argc > 0 && 0 == strcmp(argv[0], "out")) {
-    puts("usage: punch out");
-  } else if (argc > 0 && 0 == strcmp(argv[0], "summary")) {
-    puts("usage: punch summary [--csv]");
-  } else {
-    puts("Punch is a simple time tracker.\n\n" \
-         "Usage:\n\n" \
-         "\tpunch <command> [arguments]\n\n" \
-         "The commands are:\n\n" \
-         "\tin\tpunch in to a project\n" \
-         "\tout\tpunch out of a project\n" \
-         "\tsummary\tsummarize your time");
-  }
-}
-
-int in_cmd(int argc, char **argv) {
-  if (show_cmd_help("in", argc, argv)) {
-    return 0;
-  }
-  puts("TODO: implement in command.");
-  return 0;
-}
 
 int out_cmd(int argc, char **argv) {
   if (show_cmd_help("out", argc, argv)) {
@@ -69,12 +44,4 @@ int summary_cmd(int argc, char **argv) {
   }
   puts("TODO: implement summary command.");
   return 0;
-}
-
-bool show_cmd_help(char *cmd, int argc, char **argv) {
-  if (argc > 0 && (0 == strcmp(argv[0], "-h") || 0 == strcmp(argv[0], "--help"))) {
-    help_cmd(1, &cmd);
-    return true;
-  }
-  return false;
 }

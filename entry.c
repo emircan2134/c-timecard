@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -101,7 +102,11 @@ t_entry_hours entry_duration(t_entry *entry) {
 }
 
 void entry_free(t_entry *entry) {
+  assert(NULL != entry);
   free(entry->project);
+  //TODO: fix specs -- right now some of them are mallocing project but not in/out
+  free(entry->in);
+  free(entry->out);
   free(entry);
 }
 

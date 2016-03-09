@@ -2,3 +2,4 @@
 *.dSYM
 punch
 spec/*.so
+tmp/
