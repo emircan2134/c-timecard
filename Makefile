@@ -25,3 +25,6 @@ valgrind: $(BIN)
 
 clean:
 	@rm -rf $(BIN) $(SPECK) **/*.o **/*.so **/*.dSYM || true
+
+bootstrap:
+	@git submodule update --init --recursive

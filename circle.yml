@@ -1,0 +1,9 @@
+dependencies:
+  override:
+    - sudo apt-get update -y && sudo apt-get install build-essential
+    - make bootstrap
+
+test:
+  override:
+    - make test
+    - make punch
