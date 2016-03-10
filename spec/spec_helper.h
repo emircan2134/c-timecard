@@ -1,5 +1,6 @@
 #include <speck.h>
 #include <time.h>
+#include "../entry.h"
 
 #define SET_TZ(tz) char *_old_tz = getenv("TZ"); setenv("TZ", tz, 1);
 #define RESET_TZ if (NULL == _old_tz) { unsetenv("TZ"); } else { setenv("TZ", _old_tz, 1); }
@@ -26,3 +27,8 @@ char *heap_str(const char *str) {
   return dst;
 }
 
+t_entry *alloc_entry(void) {
+  t_entry *entry = malloc(sizeof(t_entry));
+  memset(entry, 0, sizeof(t_entry));
+  return entry;
+}

@@ -1,5 +1,4 @@
 #include "spec_helper.h"
-#include "../entry.h"
 
 void spec_strfentry_full_entry(void) {
   struct tm t = fixture_time();
@@ -61,7 +60,7 @@ void spec_strpentry_full_entry(void) {
   SET_TZ("est");
   char *line = "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n",
        *line_heap = heap_str(line);
-  t_entry *entry = malloc(sizeof(t_entry));
+  t_entry *entry = alloc_entry();
   char *next = strpentry(line_heap, entry);
   sp_assert(NULL != next);
   sp_assert_equal_str("c-timecard", entry->project);
@@ -82,7 +81,7 @@ void spec_strpentry_full_entry(void) {
 void spec_strpentry_half_entry(void) {
   char *line = "c-timecard\t2016-03-04T14:05:30-05:00",
        *line_heap = heap_str(line);
-  t_entry *entry = malloc(sizeof(t_entry));
+  t_entry *entry = alloc_entry();
 
   char *next = strpentry(line_heap, entry);
   sp_assert(NULL != next);
@@ -96,16 +95,16 @@ void spec_strpentry_half_entry(void) {
 
 void spec_strpentry_invalid_entry(void) {
   char *line_heap = heap_str("c-timecard");
-  t_entry *entry = malloc(sizeof(t_entry));
+  t_entry *entry = alloc_entry();
 
   char *next = strpentry(line_heap, entry);
   sp_assert(NULL == next);
-  free(line_heap); entry_free(entry); entry = malloc(sizeof(t_entry));
+  free(line_heap); entry_free(entry); entry = alloc_entry();
 
   line_heap = heap_str("c-timecard\t2016-03-04T14:05:30invalid-time");
   next = strpentry(line_heap, entry);
   sp_assert(NULL == next);
-  free(line_heap); entry_free(entry); entry = malloc(sizeof(t_entry));
+  free(line_heap); entry_free(entry); entry = alloc_entry();
 
   line_heap = heap_str("c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\textra-field");
   next = strpentry(line_heap, entry);
@@ -148,7 +147,7 @@ void spec_entry_duration_full(void) {
 void spec_entry_dup(void) {
   struct tm t = fixture_time();
   time_t in = mktime(&t);
-  t_entry *e1 = malloc(sizeof(t_entry));
+  t_entry *e1 = alloc_entry();
   e1->project = heap_str("c-timecard");
   e1->in = memcpy(malloc(sizeof(time_t)), &in, sizeof(time_t));
   e1->out = NULL;
