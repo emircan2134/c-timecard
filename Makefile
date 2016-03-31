@@ -14,7 +14,7 @@ $(BIN): *.c *.h
 
 -include vendor/speck/speck.mk
 test: $(SPECK) $(SPECK_LIBS) $(SUITES)
-	@$(SPECK)
+	@$(SPECK) -f
 
 spec/%.so: spec/spec_helper.h
 
