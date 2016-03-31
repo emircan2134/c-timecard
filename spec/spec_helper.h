@@ -32,3 +32,21 @@ t_entry *alloc_entry(void) {
   memset(entry, 0, sizeof(t_entry));
   return entry;
 }
+
+#define sp_assert_equal_d(x, y) sp_assert_equal_d_lineno(x, y, __LINE__)
+
+void sp_assert_equal_d_lineno(double x, double y, int lineno)
+{
+    state.assertions = realloc(state.assertions, (state.index + 1) * sizeof(char *));
+    alloc_sprintf(&(state.assertions[state.index]), ":%d -> %s::sp_assert_equal_d(%f, %f)", lineno, state.function, x, y);
+
+    state.codes = realloc(state.codes, (state.index + 1) * sizeof(int));
+
+    if (x == y) {
+        state.codes[state.index] = 0;
+    } else {
+        state.codes[state.index] = 1;
+    }
+
+    state.index++;
+}

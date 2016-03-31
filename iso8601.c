@@ -1,5 +1,4 @@
 #include <string.h>
-#include <time.h>
 #include "iso8601.h"
 
 #define BASE_FORMAT_NO_TZ "%Y-%m-%dT%T"
