@@ -8,19 +8,23 @@
 
 /*---------- Prototypes ----------*/
 
-int out_cmd(int argc, char **argv);
+bool show_cmd_help(int argc, char **argv);
+int out_cmd(int argc);
 int summary_cmd(int argc, char **argv);
 
 /*---------- Implementations ----------*/
 
 int main(int argc, char **argv) {
-  int status = 0;
+  int status = EXIT_SUCCESS;
   if (argc < 2) {
     help_cmd(0, NULL);
+    status = EXIT_USAGE;
+  } else if (true == show_cmd_help(argc - 2, argv + 2)) {
+    help_cmd(1, &argv[1]);
   } else if (0 == strncmp("in", argv[1], 3)) {
     status = in_cmd(argc - 2, argv + 2);
   } else if (0 == strncmp("out", argv[1], 4)) {
-    status = out_cmd(argc - 2, argv + 2);
+    status = out_cmd(argc - 2);
   } else if (0 == strncmp("summary", argv[1], 8)) {
     status = summary_cmd(argc - 2, argv + 2);
   } else {
@@ -29,19 +33,24 @@ int main(int argc, char **argv) {
   return status;
 }
 
+/**
+ * if `argv[0]` is '-h' or '--help', return `true`, otherwise return `false`.
+ */
+bool show_cmd_help(int argc, char **argv) {
+  return (argc > 0 && (0 == strcmp(argv[0], "-h") || 0 == strcmp(argv[0], "--help")));
+}
 
-int out_cmd(int argc, char **argv) {
-  if (show_cmd_help("out", argc, argv)) {
-    return 0;
+int out_cmd(int argc) {
+  if (argc > 0) {
+    return EXIT_USAGE;
   }
   puts("TODO: implement out command.");
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 int summary_cmd(int argc, char **argv) {
-  if (show_cmd_help("summary", argc, argv)) {
-    return 0;
-  }
+  (void)argc; // not used yet
+  (void)argv; // not used yet
   puts("TODO: implement summary command.");
-  return 0;
+  return EXIT_SUCCESS;
 }

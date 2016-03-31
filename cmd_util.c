@@ -8,14 +8,6 @@
 #include "cmd_util.h"
 #include "help_cmd.h"
 
-bool show_cmd_help(char *cmd, int argc, char **argv) {
-  if (argc > 0 && (0 == strcmp(argv[0], "-h") || 0 == strcmp(argv[0], "--help"))) {
-    help_cmd(1, &cmd);
-    return true;
-  }
-  return false;
-}
-
 void get_data_dir(char *buf) {
   snprintf(buf, FILENAME_MAX, "%s/.punch", getenv("HOME"));
 }

@@ -12,13 +12,10 @@ int in_cmd_with_log(t_entry_log *log, void *ctx);
 /*---------- Implementations ----------*/
 
 int in_cmd(int argc, char **argv) {
-  if (show_cmd_help("in", argc, argv)) {
-    return 0;
-  }
   if (0 == argc) {
     char *cmd = "in";
     help_cmd(1, &cmd);
-    return 0;
+    return EXIT_USAGE;
   }
 
   int did_punch_in = with_open_log_file(argv[0], in_cmd_with_fh);

@@ -3,11 +3,7 @@
 #include <stdbool.h>
 #include "entry_log.h"
 
-/**
- * if `argv[0]` is '-h' or '--help', print the specific help for `cmd` and
- * return `true`, otherwise return `false`.
- */
-bool show_cmd_help(char *cmd, int argc, char **argv);
+#define EXIT_USAGE 64
 
 /**
  * Resolve punch's storage directory (~/.punch), and print the full path into
