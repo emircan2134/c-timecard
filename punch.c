@@ -5,11 +5,11 @@
 #include "entry_log.h"
 #include "help_cmd.h"
 #include "in_cmd.h"
+#include "out_cmd.h"
 
 /*---------- Prototypes ----------*/
 
 bool show_cmd_help(int argc, char **argv);
-int out_cmd(int argc);
 int summary_cmd(int argc, char **argv);
 
 /*---------- Implementations ----------*/
@@ -40,13 +40,6 @@ bool show_cmd_help(int argc, char **argv) {
   return (argc > 0 && (0 == strcmp(argv[0], "-h") || 0 == strcmp(argv[0], "--help")));
 }
 
-int out_cmd(int argc) {
-  if (argc > 0) {
-    return EXIT_USAGE;
-  }
-  puts("TODO: implement out command.");
-  return EXIT_SUCCESS;
-}
 
 int summary_cmd(int argc, char **argv) {
   (void)argc; // not used yet
