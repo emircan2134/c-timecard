@@ -1,5 +1,5 @@
 #include "spec_helper.h"
-#include "../summary.h"
+#include "summary.h"
 
 /***  helper prototypes  ***/
 long summary_len(t_summary *list);

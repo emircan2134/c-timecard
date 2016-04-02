@@ -1,5 +1,5 @@
 #include "spec_helper.h"
-#include "../iso8601.h"
+#include "iso8601.h"
 
 void spec_format_string_utc(void) {
   struct tm t = fixture_time();

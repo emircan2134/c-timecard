@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "spec_helper.h"
-#include "../entry_log.h"
+#include "entry_log.h"
 
 /***  helper prototypes  ***/
 long log_len(t_entry_log *log);

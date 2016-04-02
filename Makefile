@@ -3,13 +3,14 @@
 BIN ?= punch
 CC_FLAGS ?= -Werror -Weverything -std=c1x -fPIC
 BIN_CC_FLAGS ?= -O3
-SPECK_LIBS=$(patsubst %.h, %.o, $(wildcard *.h))
+SPECK_LIBS = $(patsubst src/%.h, src/%.o, $(wildcard src/*.h))
+SPECK_CFLAGS = "-Isrc"
 SPECK_PATH = vendor/speck
 
-$(BIN): *.c *.h
-	$(CC) $(CC_FLAGS) $(BIN_CC_FLAGS) -o $(BIN) *.c
+$(BIN): src/*.c src/*.h
+	$(CC) $(CC_FLAGS) $(BIN_CC_FLAGS) -o $(BIN) src/*.c
 
-%.o: %.c %.h
+src/%.o: src/%.c src/%.h
 	$(CC) $(CC_FLAGS) -c -g -o $@ $<
 
 -include vendor/speck/speck.mk
@@ -23,4 +24,4 @@ valgrind: $(BIN)
 	@valgrind --leak-check=full --error-exitcode=1 ./$(SPECK)
 
 clean:
-	@rm -r $(BIN) $(SPECK) $(SPECK).dSYM *.o **/*.so *.dSYM **/*.dSYM || true
+	@rm -rf $(BIN) $(SPECK) **/*.o **/*.so **/*.dSYM || true
