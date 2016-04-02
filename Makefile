@@ -20,6 +20,7 @@ spec/%.so: spec/spec_helper.h
 
 valgrind: $(BIN)
 	@valgrind --leak-check=full --error-exitcode=1 ./$(BIN)
+	@valgrind --leak-check=full --error-exitcode=1 ./$(SPECK)
 
 clean:
 	@rm -r $(BIN) $(SPECK) $(SPECK).dSYM *.o **/*.so *.dSYM **/*.dSYM || true
