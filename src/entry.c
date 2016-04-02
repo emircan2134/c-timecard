@@ -102,17 +102,18 @@ t_entry_hours entry_duration(t_entry *entry) {
 }
 
 void entry_free(t_entry *entry) {
-  assert(NULL != entry);
-  if (NULL != entry->project) {
-    free(entry->project);
+  if (NULL != entry) {
+    if (NULL != entry->project) {
+      free(entry->project);
+    }
+    if (NULL != entry->in) {
+      free(entry->in);
+    }
+    if (NULL != entry->out) {
+      free(entry->out);
+    }
+    free(entry);
   }
-  if (NULL != entry->in) {
-    free(entry->in);
-  }
-  if (NULL != entry->out) {
-    free(entry->out);
-  }
-  free(entry);
 }
 
 t_entry *entry_dup(t_entry *entry) {

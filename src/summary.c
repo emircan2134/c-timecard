@@ -70,15 +70,16 @@ unsigned long summaries_all_projects(t_summary *summaries, char ***projects_ptr)
 
 
 void summary_free(t_summary* summary) {
-  assert(NULL != summary);
-  for(unsigned long idx = 0; idx < summary->count; idx++) {
-    free(summary->entries[idx].project);
-  }
-  free(summary->entries);
-  t_summary *succ = summary->next;
-  free(summary);
-  if(NULL != succ) {
-    summary_free(succ);
+  if (NULL != summary) {
+    for (unsigned long idx = 0; idx < summary->count; idx++) {
+      free(summary->entries[idx].project);
+    }
+    free(summary->entries);
+    t_summary *succ = summary->next;
+    free(summary);
+    if(NULL != succ) {
+      summary_free(succ);
+    }
   }
 }
 
