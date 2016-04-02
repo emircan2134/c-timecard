@@ -50,7 +50,7 @@ FILE *open_log_file(void) {
   int success = stat(path, &finfo);
   if (-1 == success) {
     if (ENOENT == errno) {
-      success = open(path, O_WRONLY | O_CREAT);
+      success = open(path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP);
       if (-1 == success) {
         goto fail;
       } else {

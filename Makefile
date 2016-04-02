@@ -1,10 +1,10 @@
 .PHONY: test speck_libs valgrind clean
 
 BIN ?= punch
-CC_FLAGS ?= -Werror -Weverything -std=c1x -fPIC
+CC_FLAGS ?= -Werror -Wall -Wextra -std=c1x -fPIC -D_GNU_SOURCE
 BIN_CC_FLAGS ?= -O3
 SPECK_LIBS = $(patsubst src/%.h, src/%.o, $(wildcard src/*.h))
-SPECK_CFLAGS = "-Isrc"
+SPECK_CFLAGS ?= -Isrc -D_GNU_SOURCE
 SPECK_PATH = vendor/speck
 
 $(BIN): src/*.c src/*.h
