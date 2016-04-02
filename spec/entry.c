@@ -1,6 +1,7 @@
 #include "spec_helper.h"
 
 void spec_strfentry_full_entry(void) {
+  SET_TZ("EST5");
   struct tm t = fixture_time();
   time_t in = mktime(&t),
          out = in + (60 * 30);
@@ -12,7 +13,6 @@ void spec_strfentry_full_entry(void) {
   char strentry[MAX_ENTRY_LINE_LEN],
        *expected = "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n";
 
-  SET_TZ("est");
   size_t written = strfentry(strentry, MAX_ENTRY_LINE_LEN, &entry);
   sp_assert(written > 0);
   sp_assert_equal_str(expected, strentry);
@@ -20,6 +20,7 @@ void spec_strfentry_full_entry(void) {
 }
 
 void spec_strfentry_half_entry(void) {
+  SET_TZ("EST5");
   struct tm t = fixture_time();
   time_t in = mktime(&t);
   t_entry entry = {
@@ -30,7 +31,6 @@ void spec_strfentry_half_entry(void) {
   char strentry[MAX_ENTRY_LINE_LEN],
        *expected = "c-timecard\t2016-03-04T14:05:30-05:00";
 
-  SET_TZ("est");
   size_t written = strfentry(strentry, MAX_ENTRY_LINE_LEN, &entry);
   sp_assert(written > 0);
   sp_assert_equal_str(expected, strentry);
@@ -57,7 +57,7 @@ void spec_strfentry_invalid_entry(void) {
 }
 
 void spec_strpentry_full_entry(void) {
-  SET_TZ("est");
+  SET_TZ("EST5");
   char *line = "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n",
        *line_heap = heap_str(line);
   t_entry *entry = alloc_entry();
