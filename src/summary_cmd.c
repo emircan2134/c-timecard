@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,9 +25,12 @@ int summary_cmd(int argc, char **argv) {
     formatter = print_summary_csv;
   }
 
-  //TODO: support recognizing STDIN for the log "file"
-
-  int exit_code = with_open_log_file((void*)formatter, summary_cmd_with_fh);
+  int exit_code = 0;
+  if (isatty(fileno(stdin))) {
+    exit_code = with_open_log_file((void*)formatter, summary_cmd_with_fh);
+  } else {
+    exit_code = summary_cmd_with_fh(stdin, (void*)formatter);
+  }
   return exit_code;
 }
 
