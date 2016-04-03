@@ -8,7 +8,6 @@
 /*-----------  Private Prototypes  -----------*/
 bool entry_valid(t_entry *entry);
 size_t strfentry_time(char *buf, time_t *t);
-char *str_dup(char *src);
 
 /*-----------  Implementations  -----------*/
 size_t strfentry(char *buf, size_t maxsize, t_entry *entry) {
@@ -64,7 +63,7 @@ char *strpentry(char *buf, t_entry *entry) {
   if (NULL == piece) {
     return NULL;
   }
-  entry->project = str_dup(piece);
+  entry->project = strndup(piece, strnlen(piece, MAX_ENTRY_LINE_LEN - 1));
   piece = strtok_r(NULL, "\t\n", &strtok_memo);
   if (NULL == piece || NULL == strpiso8601(piece, &tptr)) {
     return NULL;
@@ -118,7 +117,7 @@ void entry_free(t_entry *entry) {
 
 t_entry *entry_dup(t_entry *entry) {
   t_entry *dup = malloc(sizeof(t_entry));
-  dup->project = str_dup(entry->project);
+  dup->project = strndup(entry->project, strnlen(entry->project, MAX_ENTRY_LINE_LEN));
   dup->in = malloc(sizeof(time_t));
   memcpy(dup->in, entry->in, sizeof(time_t));
   if (NULL != entry->out) {
@@ -141,12 +140,4 @@ bool entry_valid(t_entry *entry) {
   return (NULL != entry->project &&
       NULL != entry->in &&
       strnlen(entry->project, MAX_ENTRY_LINE_LEN) < MAX_ENTRY_LINE_LEN);
-}
-
-char *str_dup(char *src) {
-  size_t l = strnlen(src, MAX_ENTRY_LINE_LEN - 1);
-  char *dst = malloc((l + 1) * sizeof(char));
-  strncpy(dst, src, l);
-  dst[l] = '\0';
-  return dst;
 }
