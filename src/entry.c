@@ -138,6 +138,6 @@ size_t strfentry_time(char *buf, time_t *t) {
 
 bool entry_valid(t_entry *entry) {
   return (NULL != entry->project &&
-      NULL != entry->in &&
-      strnlen(entry->project, MAX_ENTRY_LINE_LEN) < MAX_ENTRY_LINE_LEN);
+          NULL != entry->in &&
+          strnlen(entry->project, MAX_ENTRY_LINE_LEN) < MAX_ENTRY_LINE_LEN);
 }

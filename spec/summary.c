@@ -81,11 +81,11 @@ FILE *tmp_log_file(char *contents) {
 
 t_entry_log *entry_log_fixture(void) {
   FILE *fh = tmp_log_file(
-      "c-timecard\t2016-03-04T14:05:00-05:00\t2016-03-04T14:35:00-05:00\n" \
-      "go-timecard\t2016-03-04T15:00:00-05:00\t2016-03-04T16:00:00-05:00\n" \
-      "c-timecard\t2016-03-04T16:10:00-05:00\t2016-03-04T16:25:00-05:00\n" \
-      "c-timecard\t2016-03-06T14:05:00-05:00\t2016-03-06T14:35:00-05:00\n"
-  );
+               "c-timecard\t2016-03-04T14:05:00-05:00\t2016-03-04T14:35:00-05:00\n" \
+               "go-timecard\t2016-03-04T15:00:00-05:00\t2016-03-04T16:00:00-05:00\n" \
+               "c-timecard\t2016-03-04T16:10:00-05:00\t2016-03-04T16:25:00-05:00\n" \
+               "c-timecard\t2016-03-06T14:05:00-05:00\t2016-03-06T14:35:00-05:00\n"
+             );
 
   t_entry_log *log = log_parse(fh, NULL);
   fclose(fh);

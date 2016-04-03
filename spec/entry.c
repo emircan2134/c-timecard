@@ -59,7 +59,7 @@ void spec_strfentry_invalid_entry(void) {
 void spec_strpentry_full_entry(void) {
   SET_TZ("EST5");
   char *line = "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n",
-       *line_heap = heap_str(line);
+        *line_heap = heap_str(line);
   t_entry *entry = alloc_entry();
   char *next = strpentry(line_heap, entry);
   sp_assert(NULL != next);
@@ -80,7 +80,7 @@ void spec_strpentry_full_entry(void) {
 
 void spec_strpentry_half_entry(void) {
   char *line = "c-timecard\t2016-03-04T14:05:30-05:00",
-       *line_heap = heap_str(line);
+        *line_heap = heap_str(line);
   t_entry *entry = alloc_entry();
 
   char *next = strpentry(line_heap, entry);

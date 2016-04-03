@@ -10,10 +10,10 @@ FILE *tmp_log_file(char *contents);
 
 void spec_test_parse_success1(void) {
   FILE *fh = tmp_log_file(
-      "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n" \
-      "go-timecard\t2016-03-05T14:05:30-05:00\t2016-03-05T14:35:30-05:00\n" \
-      "c-timecard\t2016-03-06T14:05:30-05:00\t2016-03-06T14:35:30-05:00\n"
-  );
+               "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n" \
+               "go-timecard\t2016-03-05T14:05:30-05:00\t2016-03-05T14:35:30-05:00\n" \
+               "c-timecard\t2016-03-06T14:05:30-05:00\t2016-03-06T14:35:30-05:00\n"
+             );
 
   t_entry_log *log = log_parse(fh, NULL);
   sp_assert(3 == log_len(log));
@@ -26,10 +26,10 @@ void spec_test_parse_success1(void) {
 
 void spec_test_parse_success2(void) {
   FILE *fh = tmp_log_file(
-      "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n" \
-      "go-timecard\t2016-03-05T14:05:30-05:00\t2016-03-05T14:35:30-05:00\n" \
-      "c-timecard\t2016-03-06T14:05:30-05:00"
-  );
+               "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n" \
+               "go-timecard\t2016-03-05T14:05:30-05:00\t2016-03-05T14:35:30-05:00\n" \
+               "c-timecard\t2016-03-06T14:05:30-05:00"
+             );
 
   t_entry_log *log = log_parse(fh, NULL);
   sp_assert(3 == log_len(log));
@@ -42,9 +42,9 @@ void spec_test_parse_success2(void) {
 
 void spec_test_parse_fail1(void) {
   FILE *fh = tmp_log_file(
-      "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n" \
-      "go-timecard"
-  );
+               "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n" \
+               "go-timecard"
+             );
 
   // nothing bad should happen when failing, even if NULL was passed as err.
   t_entry_log *log = log_parse(fh, NULL);
@@ -55,9 +55,9 @@ void spec_test_parse_fail1(void) {
 
 void spec_test_parse_fail2(void) {
   FILE *fh = tmp_log_file(
-      "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n" \
-      "go-timecard"
-  );
+               "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n" \
+               "go-timecard"
+             );
 
   char *err;
   t_entry_log *log = log_parse(fh, &err);

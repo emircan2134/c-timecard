@@ -1,4 +1,4 @@
-.PHONY: test speck_libs valgrind clean
+.PHONY: astyle test speck_libs valgrind clean
 
 BIN ?= punch
 CFLAGS ?= -Werror -Wall -Wextra -std=c1x -fPIC -D_GNU_SOURCE
@@ -28,6 +28,12 @@ valgrind: $(BIN).debug
 	export HOME=$(TEST_HOME) && valgrind ./$(BIN).debug in foo
 	export HOME=$(TEST_HOME) && valgrind ./$(BIN).debug out
 	export HOME=$(TEST_HOME) && valgrind ./$(BIN).debug summary
+
+astyle:
+	astyle --style=google --indent=spaces=2 --pad-oper --pad-header \
+		--lineend=linux --suffix=none --align-pointer=name \
+		--keep-one-line-statements \
+		src/*.c spec/*.c
 
 clean:
 	@rm -rf $(BIN) $(BIN).debug $(SPECK) **/*.o **/*.so **/*.dSYM || true

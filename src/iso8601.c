@@ -32,7 +32,7 @@ char *strpiso8601(char *buf, struct tm *tptr) {
   if (':' != mbuf[strnlen(buf, ISO8601_STR_LEN) - 3]) {
     return NULL;
   }
-  for(size_t i = 3; i > 1; i--) {
+  for (size_t i = 3; i > 1; i--) {
     size_t target = strnlen(buf, ISO8601_STR_LEN) - i;
     mbuf[target] = mbuf[target + 1];
   }

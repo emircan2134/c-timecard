@@ -67,8 +67,8 @@ FILE *open_log_file(void) {
   return fh;
 
 fail:
-    fprintf(stderr, "Error %d (%s) opening %s\n", errno, edesc(errno), path);
-    return NULL;
+  fprintf(stderr, "Error %d (%s) opening %s\n", errno, edesc(errno), path);
+  return NULL;
 }
 
 int with_open_log_file(void *ctx, int (*worker)(FILE *, void *)) {
@@ -85,7 +85,7 @@ int with_open_log_file(void *ctx, int (*worker)(FILE *, void *)) {
   return rv;
 }
 
-int with_parsed_log(FILE *fh, void *ctx, int (*worker)(t_entry_log*, void *)) {
+int with_parsed_log(FILE *fh, void *ctx, int (*worker)(t_entry_log *, void *)) {
   t_entry_log *log = NULL;
   char *err = NULL;
   log = log_parse(fh, &err);
@@ -103,24 +103,24 @@ int with_parsed_log(FILE *fh, void *ctx, int (*worker)(t_entry_log*, void *)) {
 }
 
 char *edesc(int err) {
-  switch(err) {
-    case ENOENT:
-      return "file does not exist";
-    case ENOTDIR:
-      return "is not a directory";
-    case EACCES:
-      return "access denied";
-    case EBADF:
-      return "bad file descriptor";
-    case EEXIST:
-      return "the file exists";
-    case ENAMETOOLONG:
-      return "filename too long";
-    case EROFS:
-      return "write access requested on a read-only filesystem";
-    case EINVAL:
-      return "flag is invalid";
-    default:
-      return "unknown error";
+  switch (err) {
+  case ENOENT:
+    return "file does not exist";
+  case ENOTDIR:
+    return "is not a directory";
+  case EACCES:
+    return "access denied";
+  case EBADF:
+    return "bad file descriptor";
+  case EEXIST:
+    return "the file exists";
+  case ENAMETOOLONG:
+    return "filename too long";
+  case EROFS:
+    return "write access requested on a read-only filesystem";
+  case EINVAL:
+    return "flag is invalid";
+  default:
+    return "unknown error";
   }
 }

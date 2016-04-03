@@ -10,7 +10,7 @@
 
 /*--------- Private Prototypes ---------*/
 
-typedef void (*t_formatter_fn)(t_summary*);
+typedef void (*t_formatter_fn)(t_summary *);
 
 int summary_cmd_with_fh(FILE *fh, void *ctx);
 int summary_cmd_with_log(t_entry_log *log, void *ctx);
@@ -27,9 +27,9 @@ int summary_cmd(int argc, char **argv) {
 
   int exit_code = 0;
   if (isatty(fileno(stdin))) {
-    exit_code = with_open_log_file((void*)formatter, summary_cmd_with_fh);
+    exit_code = with_open_log_file((void *)formatter, summary_cmd_with_fh);
   } else {
-    exit_code = summary_cmd_with_fh(stdin, (void*)formatter);
+    exit_code = summary_cmd_with_fh(stdin, (void *)formatter);
   }
   return exit_code;
 }
@@ -51,7 +51,7 @@ void print_summary_human(t_summary *summaries) {
   char buf[MAX_ENTRY_LINE_LEN];
   size_t written;
 
-  while(NULL != summary) {
+  while (NULL != summary) {
     written = strftime(buf, MAX_ENTRY_LINE_LEN, "%A, %d %B %Y", &summary->day);
     if (written > 0) {
       printf("%s\n", buf);

@@ -26,7 +26,7 @@ int in_cmd_with_fh(FILE *fh, void *ctx) {
   int can_punch_in = with_parsed_log(fh, NULL, in_cmd_with_log);
 
   if (-1 != can_punch_in) {
-    char *project = (char*)ctx;
+    char *project = (char *)ctx;
     time_t now = time(NULL);
     t_entry entry = {.project = project, .in = &now, .out = NULL};
     fseek(fh, 0, SEEK_END);
@@ -43,7 +43,7 @@ int in_cmd_with_fh(FILE *fh, void *ctx) {
 int in_cmd_with_log(t_entry_log *log, void *ctx) {
   (void)ctx; //unused
   t_entry_log *tail = log;
-  while(NULL != tail && NULL != tail->next) {
+  while (NULL != tail && NULL != tail->next) {
     tail = tail->next;
   }
   if (tail != NULL && NULL == tail->entry->out) {

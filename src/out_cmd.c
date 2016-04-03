@@ -47,14 +47,14 @@ int out_cmd_with_fh(FILE *fh, void *ctx) {
 
 int out_cmd_with_log(t_entry_log *log, void *ctx) {
   t_entry_log *tail = log;
-  while(NULL != tail && NULL != tail->next) {
+  while (NULL != tail && NULL != tail->next) {
     tail = tail->next;
   }
   if (NULL == tail || NULL != tail->entry->out) {
     fprintf(stderr, "You are not punched in.\n");
     return -1;
   }
-  t_entry** t_ctx = (t_entry**)ctx;
+  t_entry **t_ctx = (t_entry **)ctx;
   *t_ctx = entry_dup(tail->entry);
   return 0;
 }

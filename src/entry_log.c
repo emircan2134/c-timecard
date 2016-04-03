@@ -13,7 +13,7 @@ t_entry_log *log_parse(FILE *fh, char **err) {
   char line[MAX_ENTRY_LINE_LEN];
   t_entry *entry = blank_entry();
   t_entry_log *log_head = NULL, *log_tail = NULL;
-  while(NULL != fgets(line, MAX_ENTRY_LINE_LEN, fh)) {
+  while (NULL != fgets(line, MAX_ENTRY_LINE_LEN, fh)) {
     if (NULL == strpentry(line, entry)) {
       if (NULL != err) {
         //TODO: this err is leaked right now -- it's going to exit shortly,
@@ -52,7 +52,7 @@ t_entry_log *log_append(t_entry_log *log, t_entry *entry) {
   t_entry_log *succ = malloc(sizeof(t_entry_log));
   t_entry_log *tail = log;
   if (NULL != log) {
-    while(NULL != tail->next) {
+    while (NULL != tail->next) {
       tail = tail->next;
     }
     tail->next = succ;
@@ -81,15 +81,15 @@ t_entry *blank_entry(void) {
 }
 
 void reset_entry(t_entry *entry) {
-  if(NULL != entry->project) {
+  if (NULL != entry->project) {
     free(entry->project);
     entry->project = NULL;
   }
-  if(NULL != entry->in) {
+  if (NULL != entry->in) {
     free(entry->in);
     entry->in = NULL;
   }
-  if(NULL != entry->out) {
+  if (NULL != entry->out) {
     free(entry->out);
     entry->out = NULL;
   }
