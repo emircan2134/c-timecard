@@ -1,5 +1,6 @@
 *.o
 *.dSYM
 punch
+punch.debug
 spec/*.so
 tmp/
