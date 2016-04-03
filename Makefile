@@ -1,7 +1,7 @@
 .PHONY: astyle test speck_libs valgrind clean
 
 BIN ?= punch
-CFLAGS ?= -Werror -Wall -Wextra -std=c1x -fPIC -D_GNU_SOURCE
+CFLAGS ?= -Werror -Wall -Wextra -std=c1x -D_GNU_SOURCE
 BIN_CFLAGS ?= -O3
 SPECK_LIBS = $(patsubst src/%.h, src/%.o, $(wildcard src/*.h))
 SPECK_CFLAGS ?= -Isrc -D_GNU_SOURCE
@@ -14,7 +14,7 @@ $(BIN).debug: src/*.c src/*.h
 	$(CC) $(CFLAGS) -g -o $(BIN).debug src/*.c
 
 src/%.o: src/%.c src/%.h
-	$(CC) $(CFLAGS) -c -g -o $@ $<
+	$(CC) $(CFLAGS) -fPIC -c -g -o $@ $<
 
 -include vendor/speck/speck.mk
 test: $(SPECK) $(SPECK_LIBS) $(SUITES)
@@ -22,7 +22,7 @@ test: $(SPECK) $(SPECK_LIBS) $(SUITES)
 
 spec/%.so: spec/spec_helper.h
 
-valgrind: TEST_HOME := $(shell mktemp -d -t punch-valgrind)
+valgrind: TEST_HOME := $(shell mktemp -d)
 valgrind: $(BIN).debug
 	export HOME=$(TEST_HOME) && valgrind ./$(BIN).debug --help
 	export HOME=$(TEST_HOME) && valgrind ./$(BIN).debug in foo
