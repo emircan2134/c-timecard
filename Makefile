@@ -4,7 +4,7 @@ BIN ?= punch
 CFLAGS ?= -Werror -Wall -Wextra -std=c1x -D_GNU_SOURCE
 BIN_CFLAGS ?= -O3
 SPECK_LIBS = $(patsubst src/%.h, src/%.o, $(wildcard src/*.h))
-SPECK_CFLAGS ?= -Isrc -D_GNU_SOURCE
+SPECK_CFLAGS ?= -Isrc -D_GNU_SOURCE -std=c1x
 SPECK_PATH = vendor/speck
 
 $(BIN): src/*.c src/*.h

@@ -1,8 +1,10 @@
+#include <assert.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "cmd_util.h"
+#include "col_writer.h"
 #include "entry_log.h"
 #include "help_cmd.h"
 #include "summary.h"
@@ -47,22 +49,30 @@ int summary_cmd_with_log(t_entry_log *log, void *ctx) {
 }
 
 void print_summary_human(t_summary *summaries) {
+  t_col_writer writer = {
+    .io = stdout,
+    .colcount = 2,
+    .padding = 2,
+  };
   t_summary *summary = summaries;
-  char buf[MAX_ENTRY_LINE_LEN];
-  size_t written;
+  size_t col_max = MAX_ENTRY_LINE_LEN / 2;
+  char buf0[col_max], buf1[col_max];
+  char *cols[2] = {buf0, buf1};
 
   while (NULL != summary) {
-    written = strftime(buf, MAX_ENTRY_LINE_LEN, "%A, %d %B %Y", &summary->day);
-    if (written > 0) {
-      printf("%s\n", buf);
-    }
+    assert(0 < strftime(buf0, col_max, "%A, %d %B %Y", &summary->day));
+    printf("%s\n", buf0);
 
     for (unsigned long idx = 0; idx < summary->count; idx++) {
       t_project_hours e = summary->entries[idx];
-      printf("\t%s:\t%.2f\n", e.project, e.hours);
+      snprintf(buf0, col_max, "\t%s:", e.project);
+      snprintf(buf1, col_max, "%.2f", e.hours);
+      cw_add_line(&writer, cols);
     }
-
-    printf("\tDAY TOTAL:\t%.2f\n\n", summary_duration(summary));
+    snprintf(buf0, col_max, "\tDAY TOTAL:");
+    snprintf(buf1, col_max, "%.2f", summary_duration(summary));
+    cw_add_line(&writer, cols);
+    cw_flush(&writer);
 
     summary = summary->next;
   }
@@ -77,7 +87,7 @@ void print_summary_csv(t_summary *summaries) {
 
   printf("Project");
   while (NULL != summary) {
-    strftime(buf, MAX_ENTRY_LINE_LEN, "%Y-%m-%d", &summary->day);
+    assert(0 < strftime(buf, MAX_ENTRY_LINE_LEN, "%Y-%m-%d", &summary->day));
     printf(",%s", buf);
 
     summary = summary->next;
