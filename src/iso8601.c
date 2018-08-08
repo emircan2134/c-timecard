@@ -46,10 +46,10 @@ size_t strfiso8601tz(char *buf, size_t maxsize, struct tm *tptr) {
     return 0;
   }
   // add the ":" into the str
-  char tz_min[2];
+  char tz_min[3];
   strncpy(tz_min, buf + 3, 2);
   buf[3] = ':';
-  strncpy(buf + 4, tz_min, 2);
+  strncpy(buf + 4, tz_min, 3);
   buf[6] = '\0';
   return strnlen(buf, TZ_LEN);
 }

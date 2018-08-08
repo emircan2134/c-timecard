@@ -13,7 +13,7 @@ void get_data_dir(char *buf) {
 }
 
 void get_log_file_path(char *buf) {
-  char dir[FILENAME_MAX];
+  char dir[FILENAME_MAX - 13]; // "/entries.log" is 12 chars
   get_data_dir(dir);
   snprintf(buf, FILENAME_MAX, "%s/entries.log", dir);
 }

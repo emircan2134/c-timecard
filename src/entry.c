@@ -18,7 +18,7 @@ size_t strfentry(char *buf, size_t maxsize, t_entry *entry) {
     return 0;
   }
   size_t tot_written = strnlen(entry->project, maxsize);
-  if (NULL == strncpy(buf + tot_written, "\t", 1)) {
+  if (NULL == strncpy(buf + tot_written, "\t", 2)) {
     return 0;
   }
   tot_written += 1;
@@ -31,7 +31,7 @@ size_t strfentry(char *buf, size_t maxsize, t_entry *entry) {
   }
   tot_written += strnlen(tstr, ISO8601_STR_LEN);
   if (NULL != entry->out) {
-    if (NULL == strncpy(buf + tot_written, "\t", 1)) {
+    if (NULL == strncpy(buf + tot_written, "\t", 2)) {
       return 0;
     }
     tot_written += 1;
@@ -42,7 +42,7 @@ size_t strfentry(char *buf, size_t maxsize, t_entry *entry) {
       return 0;
     }
     tot_written += strnlen(tstr, ISO8601_STR_LEN);
-    if (NULL == strncpy(buf + tot_written, "\n", 1)) {
+    if (NULL == strncpy(buf + tot_written, "\n", 2)) {
       return 0;
     }
     tot_written += 1;
