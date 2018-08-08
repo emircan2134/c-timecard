@@ -1,11 +1,18 @@
 .PHONY: astyle test speck_libs valgrind clean
 
 BIN ?= punch
+PREFIX ?= /usr/local
 CFLAGS ?= -Werror -Wall -Wextra -std=c1x -D_GNU_SOURCE
 BIN_CFLAGS ?= -O3
 SPECK_LIBS = $(patsubst src/%.h, src/%.o, $(wildcard src/*.h))
 SPECK_CFLAGS ?= -Isrc -D_GNU_SOURCE -std=c1x
 SPECK_PATH = vendor/speck
+
+install: $(BIN)
+	install -m 0755 $(BIN) $(PREFIX)/bin/$(BIN)
+
+uninstall:
+	rm $(PREFIX)/bin/$(BIN)
 
 $(BIN): src/*.c src/*.h
 	$(CC) $(CFLAGS) $(BIN_CFLAGS) -o $(BIN) src/*.c
