@@ -40,6 +40,25 @@ void spec_test_parse_success2(void) {
   log_free(log);
 }
 
+void spec_test_parse_success3_trailing_newline(void) {
+  FILE *fh = tmp_log_file(
+               "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n" \
+               "go-timecard\t2016-03-05T14:05:30-05:00\t2016-03-05T14:35:30-05:00\n" \
+               "c-timecard\t2016-03-06T14:05:30-05:00\n"
+             );
+
+  t_entry_log *log = log_parse(fh, NULL);
+  sp_assert(3 == log_len(log));
+  sp_assert_equal_str("c-timecard", log->entry->project);
+  sp_assert_equal_str("go-timecard", log->next->entry->project);
+  t_entry *last_entry = log->next->next->entry;
+  sp_assert_equal_str("c-timecard", last_entry->project);
+  sp_assert(NULL == last_entry->out);
+
+  fclose(fh);
+  log_free(log);
+}
+
 void spec_test_parse_fail1(void) {
   FILE *fh = tmp_log_file(
                "c-timecard\t2016-03-04T14:05:30-05:00\t2016-03-04T14:35:30-05:00\n" \
