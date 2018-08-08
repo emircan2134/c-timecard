@@ -8,8 +8,21 @@
 #include "cmd_util.h"
 #include "help_cmd.h"
 
+void get_config_dir(char *buf) {
+  if (NULL != getenv("XDG_CONFIG_HOME")) {
+    strncpy(buf, getenv("XDG_CONFIG_HOME"), FILENAME_MAX - 14);
+  } else {
+    snprintf(buf, FILENAME_MAX - 14, "%s/.config", getenv("HOME"));
+  }
+}
+
 void get_data_dir(char *buf) {
-  snprintf(buf, FILENAME_MAX, "%s/.punch", getenv("HOME"));
+  if (NULL != getenv("PUNCH_HOME")) {
+    strncpy(buf, getenv("PUNCH_HOME"), FILENAME_MAX - 14);
+  } else {
+    get_config_dir(buf);
+    strcpy(buf + strlen(buf), "/punch");
+  }
 }
 
 void get_log_file_path(char *buf) {
