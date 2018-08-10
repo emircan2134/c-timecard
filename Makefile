@@ -8,12 +8,6 @@ SPECK_LIBS = $(patsubst src/%.h, src/%.o, $(wildcard src/*.h))
 SPECK_CFLAGS ?= -Isrc -D_GNU_SOURCE -std=c1x
 SPECK_PATH = vendor/speck
 
-install: $(BIN)
-	install -m 0755 $(BIN) $(PREFIX)/bin/$(BIN)
-
-uninstall:
-	rm $(PREFIX)/bin/$(BIN)
-
 $(BIN): src/*.c src/*.h
 	$(CC) $(CFLAGS) $(BIN_CFLAGS) -o $(BIN) src/*.c
 
@@ -22,6 +16,13 @@ $(BIN).debug: src/*.c src/*.h
 
 src/%.o: src/%.c src/%.h
 	$(CC) $(CFLAGS) -fPIC -c -g -o $@ $<
+
+install: $(BIN)
+	install -m 0755 $(BIN) $(PREFIX)/bin/$(BIN)
+
+uninstall:
+	rm $(PREFIX)/bin/$(BIN)
+
 
 -include vendor/speck/speck.mk
 test: $(SPECK) $(SPECK_LIBS) $(SUITES)
