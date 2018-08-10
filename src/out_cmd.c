@@ -29,20 +29,27 @@ int out_cmd_with_fh(FILE *fh, void *ctx) {
   int can_punch_out = with_parsed_log(fh, &cur_entry, out_cmd_with_log);
 
   if (-1 != can_punch_out && NULL != cur_entry) {
-    time_t t = time(NULL);
-    struct tm tt;
-    localtime_r(&t, &tt);
-    fseek(fh, 0, SEEK_END);
-    fputc('\t', fh);
-    char time[ISO8601_STR_LEN];
-    strfiso8601(time, ISO8601_STR_LEN, &tt);
-    fputs(time, fh);
-    fputc('\n', fh);
+    write_out(fh);
     entry_free(cur_entry);
     return 0;
   } else {
     return can_punch_out;
   }
+}
+
+void write_out(FILE *fh) {
+  time_t t = time(NULL);
+  struct tm tt;
+  localtime_r(&t, &tt);
+  fseek(fh, -1, SEEK_END);
+  if ('\n' != fgetc(fh)) {
+    fseek(fh, 0, SEEK_END);
+  }
+  fputc('\t', fh);
+  char time[ISO8601_STR_LEN];
+  strfiso8601(time, ISO8601_STR_LEN, &tt);
+  fputs(time, fh);
+  fputc('\n', fh);
 }
 
 int out_cmd_with_log(t_entry_log *log, void *ctx) {

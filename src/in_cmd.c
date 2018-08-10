@@ -3,6 +3,7 @@
 #include "entry_log.h"
 #include "help_cmd.h"
 #include "in_cmd.h"
+#include "out_cmd.h"
 
 /*---------- Private Prototype ----------*/
 
@@ -23,21 +24,24 @@ int in_cmd(int argc, char **argv) {
 }
 
 int in_cmd_with_fh(FILE *fh, void *ctx) {
-  int can_punch_in = with_parsed_log(fh, NULL, in_cmd_with_log);
+  int already_punched_in = with_parsed_log(fh, NULL, in_cmd_with_log);
 
-  if (-1 != can_punch_in) {
-    char *project = (char *)ctx;
-    time_t now = time(NULL);
-    t_entry entry = {.project = project, .in = &now, .out = NULL};
-    fseek(fh, 0, SEEK_END);
-    char line[MAX_ENTRY_LINE_LEN];
-    strfentry(line, MAX_ENTRY_LINE_LEN, &entry);
-    fputs(line, fh);
-    printf("Punched into %s\n", project);
-    return 0;
-  } else {
-    return can_punch_in;
+  if (-1 == already_punched_in) {
+    printf("DEBUG: in_cmd_with_fh  going to write_out\n");
+    write_out(fh);
   }
+
+  printf("DEBUG: in_cmd_with_fh  after write_out\n");
+  char *project = (char *)ctx;
+  printf("DEBUG: in_cmd_with_fh  project = %s\n", project);
+  time_t now = time(NULL);
+  t_entry entry = {.project = project, .in = &now, .out = NULL};
+  fseek(fh, 0, SEEK_END);
+  char line[MAX_ENTRY_LINE_LEN];
+  strfentry(line, MAX_ENTRY_LINE_LEN, &entry);
+  fputs(line, fh);
+  printf("Punched into %s\n", project);
+  return 0;
 }
 
 int in_cmd_with_log(t_entry_log *log, void *ctx) {
@@ -47,7 +51,7 @@ int in_cmd_with_log(t_entry_log *log, void *ctx) {
     tail = tail->next;
   }
   if (tail != NULL && NULL == tail->entry->out) {
-    fprintf(stderr, "You are still punched in to %s. Please punch out.\n", tail->entry->project);
+    fprintf(stderr, "You have been punched out of %s.\n", tail->entry->project);
     return -1;
   }
   return 0;
